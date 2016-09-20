@@ -7,7 +7,7 @@ class User < ApplicationRecord
   VALID_USERNAME_REGEX = /\A[a-zA-Z]+[\w]+\z/
   validates :username, presence: true, length: { maximum: 20 }, format: { with: VALID_USERNAME_REGEX }, uniqueness: true
   has_secure_password
-  validates :password, presence: true, length: { minimum: 8 }
+  validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
   
   # Returns the hash digest of the given string.
   def User.digest(string)
