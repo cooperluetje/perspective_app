@@ -1,4 +1,7 @@
+require 'json'
+
 class API::SessionsController < ApplicationController
+  #skip_before_action  :verify_authenticity_token
   
   def new
   end
@@ -8,10 +11,19 @@ class API::SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       log_in user
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_back_or user
+      respond_to do |format|
+        format.html
+        format.json{
+          render :json => {:success => true, :error => user}.to_json
+        }
+      end
     else
-      flash.now[:danger] = 'Invalid username/password combination'
-      render 'new'
+      respond_to do |format|
+      format.html
+      format.json{
+        render :json => {:success => false, :error => "Invalid username/password combination"}.to_json
+      }
+    end
     end
   end
 

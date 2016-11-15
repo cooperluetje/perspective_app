@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :users
   
   namespace :api, :path => "api", :defaults => {:format => :json} do
+    get 'sessions/new'
+    
     root 'static_pages#home'
     get '/help', to: 'static_pages#help'
     get '/about', to: 'static_pages#about'
