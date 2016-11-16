@@ -20,7 +20,8 @@ class API::UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    render :json => {:users => @user}.to_json
+    @microposts = @user.microposts.all
+    render :json => {:users => @user, :microposts => @microposts}.to_json
   end
   
   def new
