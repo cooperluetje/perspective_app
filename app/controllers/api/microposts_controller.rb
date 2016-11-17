@@ -1,16 +1,27 @@
-class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
-  before_action :correct_user,   only: :destroy
+require 'json'
+
+class API::MicropostsController < ApplicationController
+  #before_action :logged_in_user, only: [:create, :destroy]
+  #before_action :correct_user,   only: :destroy
+  skip_before_action  :verify_authenticity_token
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
-      flash[:success] = "Micropost created!"
-      redirect_to root_url
+      render :json => {:success => true}.to_json
     else
-      @feed_items = []
-      render 'static_pages/home'
+      render :json => {:success => false, :error => "Picture not selected!"}.to_json
     end
+  end
+  
+  def index
+    @microposts = current_user.microposts.paginate(page: params[:page])
+    render :json => {:microposts => @microposts}.to_json
+  end
+  
+  def show
+    @micropost = current_user.microposts.find(params[:id])
+    render :json => {:micropost => @micropost}.to_json
   end
 
   def destroy

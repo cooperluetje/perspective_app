@@ -4,7 +4,6 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    #if @micropost.picture.url != nil
     if @micropost.save
       flash[:success] = "Micropost created!"
       redirect_to root_url
@@ -12,10 +11,6 @@ class MicropostsController < ApplicationController
       @feed_items = []
       render 'static_pages/home'
     end
-    #else
-    #  flash[:failure] = "Micropost not created!"
-    #  redirect_to root_url
-    #end
   end
 
   def destroy

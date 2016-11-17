@@ -19,6 +19,7 @@ gem 'jbuilder',                '2.4.1'
 gem 'neatjson',                '0.8.1'
 gem 'paperclip',               '4.1.1'
 gem 'shoulda-matchers'
+gem 'carrierwave-base64'
 
 group :development, :test do
   gem 'sqlite3', '1.3.11'
