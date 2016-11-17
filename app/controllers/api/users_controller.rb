@@ -2,7 +2,7 @@ require 'json'
 
 class API::UsersController < ApplicationController
   #before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  #before_action :correct_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update, :feed]
   #before_action :admin_user, only: :destroy
   skip_before_action  :verify_authenticity_token
   
@@ -56,6 +56,24 @@ class API::UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
+  end
+  
+  def feed
+    @user = User.find(params[:id])
+    @microposts = @user.feed.paginate(page: params[:page])
+    render :json => {:feed => @microposts}.to_json
+  end
+  
+  def following
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render :json => {:user => @user, :following => @users}.to_json
+  end
+
+  def followers
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render :json => {:user => @user, :followers => @users}.to_json
   end
   
   private
