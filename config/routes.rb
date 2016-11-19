@@ -10,11 +10,16 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users do
     member do
-      get :following, :followers
+      get :following, :followers, :getLocation
     end
   end
-  resources :microposts, only: [:create, :destroy]
+  resources :microposts, only: [:create, :destroy] do
+    member do
+      get :getLocation
+    end
+  end
   resources :relationships, only: [:create, :destroy]
+  resources :locations, only: [:create, :destroy]
   
   namespace :api, :path => "api", :defaults => {:format => :json} do
     root 'static_pages#home'
@@ -28,11 +33,16 @@ Rails.application.routes.draw do
     delete '/logout', to: 'sessions#destroy'
     resources :users do
       member do
-        get :following, :followers, :feed
+        get :following, :followers, :feed, :getLocation
       end
     end
-    resources :microposts
+    resources :microposts do
+      member do
+        get :getLocation
+      end
+    end
     resources :relationships, only: [:create, :destroy]
+    resources :locations, only: [:create, :destroy]
   end
   
 end

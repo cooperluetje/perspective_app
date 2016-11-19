@@ -4,7 +4,7 @@ class API::UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :feed]
   before_action :admin_user, only: :destroy
-  skip_before_action  :verify_authenticity_token
+  #skip_before_action  :verify_authenticity_token
   
   def index
     @users = User.all
@@ -20,7 +20,7 @@ class API::UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    render :json => {:users => @user}.to_json
+    render :json => {:user => @user}.to_json
   end
   
   def new
@@ -74,6 +74,12 @@ class API::UsersController < ApplicationController
     @user  = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render :json => {:user => @user, :followers => @users}.to_json
+  end
+  
+  def getLocation
+    @user = User.find(params[:id])
+    @location = @user.location
+    render :json => {:location => @location}.to_json
   end
   
   private

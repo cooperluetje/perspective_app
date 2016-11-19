@@ -18,11 +18,10 @@ User.create!(name:  "Cooper Luetje",
 end
 
 # Microposts
-users = User.order(:created_at).take(6)
-content = Faker::Lorem.sentence(5)
-picture = open(Faker::Avatar.image)
-users.each { |user| user.microposts.create!(content: content, picture: open(Faker::Avatar.image)) }
-
+users = User.order(:created_at).take(20)
+#content = Faker::Lorem.sentence(5)
+#picture = open(Faker::Avatar.image)
+users.each { |user| user.microposts.create!(content: Faker::Lorem.sentence(5), picture: open(Faker::Avatar.image), location: Location.create!(latitude: 47.564, longitude: 56.423)) }
 
 # Following relationships
 users = User.all
@@ -31,3 +30,9 @@ following = users[2..50]
 followers = users[3..40]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+
+# Locations
+users = User.all
+user  = users.first
+user.create_location!(latitude: 47.564, longitude: 56.423)

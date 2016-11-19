@@ -15,7 +15,7 @@ class API::MicropostsController < ApplicationController
   end
   
   def index
-    @microposts = current_user.microposts.paginate(page: params[:page])
+    @microposts = current_user.microposts.paginate(:per_page => 10, :page => params[:page])
     render :json => {:microposts => @microposts}.to_json
   end
   
@@ -28,6 +28,12 @@ class API::MicropostsController < ApplicationController
     @micropost.destroy
     flash[:success] = "Micropost deleted"
     redirect_to request.referrer || root_url
+  end
+  
+  def getLocation
+    @micropost = Micropost.find(params[:id])
+    @location = @micropost.location
+    render :json => {:location => @location}.to_json
   end
 
   private
