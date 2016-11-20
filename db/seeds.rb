@@ -21,7 +21,7 @@ end
 users = User.order(:created_at).take(20)
 #content = Faker::Lorem.sentence(5)
 #picture = open(Faker::Avatar.image)
-users.each { |user| user.microposts.create!(content: Faker::Lorem.sentence(5), picture: open(Faker::Avatar.image), location: Location.create!(latitude: 47.564, longitude: 56.423)) }
+users.each { |user| user.microposts.create!(content: Faker::Lorem.sentence(5), picture: open(Faker::Avatar.image), location: Location.create!(latitude: 39.9502536189183, longitude: -76.7337784544348)) }
 
 # Following relationships
 users = User.all
@@ -35,4 +35,4 @@ followers.each { |follower| follower.follow(user) }
 # Locations
 users = User.all
 user  = users.first
-user.create_location!(latitude: 47.564, longitude: 56.423)
+user.create_location!(latitude: 39.9502536189183, longitude: -76.7337784544348)

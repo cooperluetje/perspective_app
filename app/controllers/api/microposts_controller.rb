@@ -7,8 +7,9 @@ class API::MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    @micropost.build_location(location_params)
     if @micropost.save
-      render :json => {:success => true}.to_json
+      render :json => {:success => true, :micropost_id => @micropost.id}.to_json
     else
       render :json => {:success => false, :error => "Picture not selected!"}.to_json
     end
@@ -39,7 +40,11 @@ class API::MicropostsController < ApplicationController
   private
 
     def micropost_params
-      params.require(:micropost).permit(:content, :picture)
+      params.require(:micropost).permit(:content, :picture, :location)
+    end
+    
+    def location_params
+      params.require(:location).permit(:latitude, :longitude)
     end
     
     def correct_user
