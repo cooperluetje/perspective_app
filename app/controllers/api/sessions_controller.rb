@@ -21,6 +21,7 @@ class API::SessionsController < ApplicationController
     user = User.find_by(username: params[:session][:username])
     if user.remember_digest == params[:session][:token]
       log_in user
+      remember(user)
       render :json => {:success => true}.to_json
     else
       render :json => {:success => false}.to_json
