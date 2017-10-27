@@ -16,7 +16,7 @@ class API::MicropostsController < ApplicationController
   end
   
   def index
-    @microposts = current_user.microposts.paginate(:per_page => 10, :page => params[:page])
+    @microposts = User.microposts.paginate(:per_page => 10, :page => params[:page])
     render :json => {:microposts => @microposts}.to_json
   end
   

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     post 'signup', to: 'users#create'
     get '/login', to: 'sessions#new'
     post '/login', to: 'sessions#create'
+    post '/verify', to: 'sessions#verify'
     delete '/logout', to: 'sessions#destroy'
     resources :users do
       member do
